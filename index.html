@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense-List</title>
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 20rem;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Expenses in a month</h1>
+    <h2 id="result"></h2>
+    <br>
+    <input type="text" id="money">
+    <br>
+    <input type="text" id="Item">
+    <br>
+    <button id="Add">+</button>
+    <br>
+    <div id="output"></div>
+    
+    <script type="text/javascript">
+        var inp=document.querySelector("#money");
+        var res=document.querySelector("#result");
+        var btn=document.querySelector("#Add");
+        var inp1=document.querySelector("#Item");   
+        var output=document.querySelector("#output");     
+        var finalList=[];        
+        var expense=0;
+        function AddExpense(){  
+            var List={};          
+            var amt=inp.value;
+            var itemName=inp1.value;        
+            var amount=parseInt(amt,10);        
+            expense=expense+amount;            
+            res.textContent=`total : ${expense}`;
+            List.money=amount;  
+            List.name=itemName;  
+            finalList.push(List);
+            var map=finalList.map(expense=>{
+                return `<div>${expense.money} || ${expense.name}</div>`;
+            }).join("");
+            output.innerHTML=map;                 
+            
+        }       
+        btn.addEventListener("click",AddExpense);
+    </script>    
+</body>
+</html>
