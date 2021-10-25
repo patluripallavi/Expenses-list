@@ -16,7 +16,7 @@
           <span class="input-group-text" id="result">Total : 0</span>            
         </div>
     </nav>
-    
+    <h2 id="name", style="text-align: center; margin-top: 2%;"></h2>
     <div class="container-fluid bg-light" style="min-height: 100hv;">
         <div class="container" style="margin: 3%;">           
               <div class="input-group mb-3">               
@@ -36,6 +36,9 @@
     </div>       
     
     <script type="text/javascript">
+        var name1=prompt("Enter your name here : ");
+        var inpname=document.querySelector("#name");
+        inpname.textContent=`Welcome ${name1} , You can enter your expense list here!!! `;
         var inp=document.querySelector("#money");
         var res=document.querySelector("#result");
         var btn=document.querySelector("#Add");
