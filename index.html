@@ -12,10 +12,11 @@
 <body>
     <nav class="navbar navbar-dark bg-dark">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Expense-List</a>          
+          <a class="navbar-brand" href="#">Expense-List</a>
+          <span class="input-group-text" id="result">Total : 0</span>            
         </div>
     </nav>
-    <h2 id="result" style="margin-left: 40%;"></h2> 
+    
     <div class="container-fluid bg-light" style="min-height: 100hv;">
         <div class="container" style="margin: 3%;">           
               <div class="input-group mb-3">               
@@ -47,26 +48,57 @@
             var amt=inp.value;
             var itemName=inp1.value;        
             var amount=parseInt(amt,10);        
-            expense=expense+amount;            
-            res.textContent=`total : ${expense}`;
+            expense=expense+amount; 
+            total(expense);              
             List.money=amount;  
             List.name=itemName;  
+            List.period=new Date();
             finalList.push(List);
-            var map=finalList.map(expense=>expense1(expense) ).join("");
-            output.innerHTML=map;   
+            renderOutput(finalList);              
             
         }       
         btn.addEventListener("click",AddExpense);
-        function expense1({name,money}){
+
+        function getStringDate(period){
+            return period.toLocaleDateString('en-Us',{year : 'numeric',month:'long',day:'numeric'})
+        }
+      
+        function deletedItem(deletedDate){
+            var newArr=[];
+            var dedAmount=0;
+            for(var i=0;i<finalList.length;i++){
+                if(finalList[i].period.valueOf()===deletedDate){                    
+                    dedAmount=finalList[i].money;
+                }   
+                total(expense-dedAmount) ;           
+
+                if(finalList[i].period.valueOf()!==deletedDate){
+                    newArr.push(finalList[i]);
+                }
+                renderOutput(newArr);
+            }
+        }
+
+        function total(cost){
+            res.textContent=`Total : ${cost}`;
+        }
+
+        function renderOutput(arr){
+            var map=arr.map(expense=>expense1(expense) ).join("");
+            output.innerHTML=map;  
+        }
+
+        function expense1({name,money,period}){
             return `<li class="list-group-item d-flex justify-content-between">
                 <div class="d-flex flex-column">
-                    ${name}                   
+                    ${name}  
+                    <small> ${getStringDate(period)} </small>               
                 </div>
                 <div>
                     <span class="px-5">
                         ${money}
                     </span>
-                    <button type="button" class="btn btn-outline-danger btn-sm">
+                    <button type="button" class="btn btn-outline-danger btn-sm" onClick = "deletedItem(${period.valueOf()})">
                         <i class="fas fa-trash-alt"></i>
                     </button>
                 </div>
